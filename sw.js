@@ -7,18 +7,19 @@ const urlsToCache = [
 
 // Cache Install
 
-self.addEventListener("install", (event) => {
-    event.waitUntil(
-      caches
-        .open("v1")
-        .then((cache) =>
-          cache.addAll([
-            "/",
-            "/index.html",
-          ]),
-        ),
-    );
-  });
+this.addEventListener("install", (event) => {
+  event.waitUntil(
+    caches
+      .open("v1")
+      .then((cache) =>
+        cache.addAll([
+          "/",
+          "/index.html",
+        ]),
+      ),
+  );
+});
+
 
 // Cache data fetching
 
