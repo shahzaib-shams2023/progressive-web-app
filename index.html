@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progressive Web App</title>
+</head>
+<style>
+    body{
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<body>
+    <h1>Simple PWA</h1>
+    <p id="status">Welcome to our pwa!!!!</p>
+
+    <script>
+        if('serviceWorker' in navigator){
+            window.addEventListener('load' , ()=> {
+                navigator.serviceWorker.register('sw.js')
+                .then(() => {
+                    console.log("Service Worker registered Successfullyt=")
+                })
+                .catch(err => {
+                    console.log(`Unable to register Service worker ${err}`)
+                })
+            })
+        }
+
+        var installPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault()
+
+            installPrompt = e
+
+            document.getElementById('status').innerHTML = "App is Installed , look for the install icon"
+        })
+
+        window.addEventListener('appinstalled' , (evt) => {
+            document.getElementById('status').innerHTML= `App Installed Successfully`;
+        })
+    </script>
+</body>
+</html>
