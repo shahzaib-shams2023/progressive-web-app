@@ -23,7 +23,7 @@
             window.addEventListener('load' , ()=> {
                 navigator.serviceWorker.register('sw.js')
                 .then(() => {
-                    console.log("Service Worker registered Successfullyt=")
+                    console.log("Service Worker registered Successfully")
                 })
                 .catch(err => {
                     console.log(`Unable to register Service worker ${err}`)
@@ -38,11 +38,11 @@
 
             installPrompt = e
 
-            document.getElementById('status').innerHTML = "App is Installed , look for the install icon"
+            document.getElementById('status').innerText = "App is Installed , look for the install icon"
         })
 
         window.addEventListener('appinstalled' , (evt) => {
-            document.getElementById('status').innerHTML= `App Installed Successfully`;
+            document.getElementById('status').innerText= `App Installed Successfully`;
         })
     </script>
 </body>
