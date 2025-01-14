@@ -7,41 +7,30 @@ const urlsToCache = [
 
 // Cache Install
 
-self.addEventListener("install", (event) => {
-  console.log("Service Worker : Installed!")
-
+this.addEventListener("install", (event) => {
   event.waitUntil(
-      
-      (async() => {
-          try {
-              cache_obj = await caches.open(CACHE_NAME)
-              cache_obj.addAll(urlsToCache)
-          }
-          catch{
-              console.log("error occured while caching...")
-          }
-      })()
-  )
-} )
+    caches
+      .open("v1")
+      .then((cache) =>
+        cache.addAll([
+          "/",
+          "/index.html",
+        ]),
+      ),
+  );
+});
 
 
 // Cache data fetching
 
-self.addEventListener("fetch", (event) => {
-  // We only want to call event.respondWith() if this is a GET request for an HTML document.
-  if (
-    event.request.method === "GET" &&
-    event.request.headers.get("accept").includes("text/html")
-  ) {
-    console.log("Handling fetch event for", event.request.url);
+self.addEventListener('fetch' , (event) => {
     event.respondWith(
-      fetch(event.request).catch((e) => {
-        console.error("Fetch failed; returning offline page instead.", e);
-        return caches
-          .open(CACHE_NAME)
-          .then((cache) => cache.match(urlsToCache));
-      }),
-    );
-  }
-});
-
+        caches.match(event.request)
+        .then(response => {
+            if(response){
+                return response
+            }
+            return fetch(event.request)
+        })
+    )
+})
