@@ -7,15 +7,22 @@ const urlsToCache = [
 
 // Cache Install
 
-this.addEventListener("install", (event) => {
+self.addEventListener("install", (event) => {
+  console.log("Service Worker : Installed!")
+
   event.waitUntil(
-    caches
-      .open(CACHE_NAME)
-      .then((cache) =>
-        cache.addAll(urlsToCache),
-      ),
-  );
-});
+      
+      (async() => {
+          try {
+              cache_obj = await caches.open(CACHE_NAME)
+              cache_obj.addAll(urlsToCache)
+          }
+          catch{
+              console.log("error occured while caching...")
+          }
+      })()
+  )
+} )
 
 
 // Cache data fetching
